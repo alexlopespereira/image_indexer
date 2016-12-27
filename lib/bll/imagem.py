@@ -39,30 +39,31 @@ class Imagem:
             self.tamanho_pixel_x= metadados['cellx'] if metadados['cellx']!= '' else None
             self.tamanho_pixel_y= metadados['celly'] if metadados['celly'] != '' else None
 
-            self.unidade_celula_xy = metadados_adicionais['unidade_celula_xy'] if metadados_adicionais['unidade_celula_xy'] != '' else None
-            self.near_range	 = None 
-            self.far_range	 = None 
-            self.angulo_near     = metadados_adicionais['angulo_near'] if metadados_adicionais['angulo_near'] != '' else None
-            self.angulo_far      = metadados_adicionais['angulo_far'] if metadados_adicionais['angulo_far'] != '' else None
-            self.direcao_orbita	 = metadados_adicionais['direcao_orbita'] if metadados_adicionais['direcao_orbita'] != '' else None
-            self.datum           = metadados_adicionais['datum'] if metadados_adicionais['datum']!= '' else None
-            self.projecao        = metadados_adicionais['projecao'] if metadados_adicionais['projecao']!= '' else None
-            self.lado_imageamento= metadados_adicionais['lado_imageamento'] if metadados_adicionais['lado_imageamento']!= '' else None
-            self.caminho_metadados 	= metadados_adicionais['caminho_metadados'] if metadados_adicionais['caminho_metadados']!= '' else None
-            self.tipo_produto    = metadados_adicionais['tipo_produto'] if metadados_adicionais['tipo_produto'] != '' else None
-            #dados de polarização
-            if metadados_adicionais['polarizacao'] == 'HH':self.polar_hh = True
-            else:self.polar_hh = False 
-            if metadados_adicionais['polarizacao'] == 'HV':self.polar_hv = True
-            else:self.polar_hv = False 
-            if metadados_adicionais['polarizacao'] == 'VV':self.polar_vv = True
-            else:self.polar_vv = False
-            if metadados_adicionais['polarizacao'] == 'VH':self.polar_vh = True
-            else:self.polar_vh = False
+            if isinstance(metadados_adicionais, dict):
+                self.unidade_celula_xy = metadados_adicionais['unidade_celula_xy'] if metadados_adicionais['unidade_celula_xy'] != '' else None
+                self.near_range	 = None
+                self.far_range	 = None
+                self.angulo_near     = metadados_adicionais['angulo_near'] if metadados_adicionais['angulo_near'] != '' else None
+                self.angulo_far      = metadados_adicionais['angulo_far'] if metadados_adicionais['angulo_far'] != '' else None
+                self.direcao_orbita	 = metadados_adicionais['direcao_orbita'] if metadados_adicionais['direcao_orbita'] != '' else None
+                self.datum           = metadados_adicionais['datum'] if metadados_adicionais['datum']!= '' else None
+                self.projecao        = metadados_adicionais['projecao'] if metadados_adicionais['projecao']!= '' else None
+                self.lado_imageamento= metadados_adicionais['lado_imageamento'] if metadados_adicionais['lado_imageamento']!= '' else None
+                self.caminho_metadados 	= metadados_adicionais['caminho_metadados'] if metadados_adicionais['caminho_metadados']!= '' else None
+                self.tipo_produto    = metadados_adicionais['tipo_produto'] if metadados_adicionais['tipo_produto'] != '' else None
+                #dados de polarização
+                if metadados_adicionais['polarizacao'] == 'HH':self.polar_hh = True
+                else:self.polar_hh = False
+                if metadados_adicionais['polarizacao'] == 'HV':self.polar_hv = True
+                else:self.polar_hv = False
+                if metadados_adicionais['polarizacao'] == 'VV':self.polar_vv = True
+                else:self.polar_vv = False
+                if metadados_adicionais['polarizacao'] == 'VH':self.polar_vh = True
+                else:self.polar_vh = False
 
-            if metadados_adicionais['srid'] != '':
-                self.SRID = metadados_adicionais['srid']
-            else:raise Exception("O SRID da imagem não pôde ser identificado." % self.caminho_arquivo)
+                if metadados_adicionais['srid'] != '':
+                    self.SRID = metadados_adicionais['srid']
+                else:raise Exception("O SRID da imagem não pôde ser identificado." % self.caminho_arquivo)
 
             self.quantidade_looks= None #if metadados['']!= '' else None
             self.srs             = metadados['srs'] if metadados['srs'] != '' else None

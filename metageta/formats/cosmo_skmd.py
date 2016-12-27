@@ -51,7 +51,7 @@ class Dataset(__default__.Dataset):
         self.metadata['filetype'] = driver+'/'+self._gdaldataset.GetDriver().LongName
         self.metadata['sensor'] = 'SAR'
         self.metadata['satellite'] = metadataset['Satellite_ID']
-        imgdate = str(metadataset['Scene_Sensing_Start_UTC'])
+        imgdate = str(metadataset['Product_Generation_UTC'])
         self.metadata['imgdate'] = datetime.datetime.strptime(re.sub('\.\d{9}','',imgdate),"%Y-%m-%d %H:%M:%S")
         self.metadata['orbit'] = metadataset['Orbit_Number']
         self.metadata['mode'] = metadataset['Acquisition_Mode']

@@ -9,17 +9,18 @@ import string
 import smtplib
 import commands
 from email.MIMEText import MIMEText
+import pwd
 
 arquivo_log = ''
 
 def coletar_informacoes_locais():
 
-    IP = commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1]
+    IP = commands.getoutput("/sbin/ifconfig | grep inet").split("\n")[0].split()[1]
     remov = re.sub('(?:[0-9]{1,3}\.){3}[0-9]{1,3}$','',IP)
     IP = string.replace(IP,remov,'')
     OS = commands.getoutput("/bin/uname -a")
     USUARIO = getpass.getuser()
-    LOGIN = os.getlogin()
+    LOGIN = pwd.getpwuid(os.getuid()).pw_name #os.getlogin()
 
     return {'ip':IP, 'os':OS, 'usuario':USUARIO, 'login':LOGIN}
 

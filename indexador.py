@@ -20,6 +20,7 @@ class Indexador:
             #verificando qual o centro administrativo (Códigos referentes ao sistema coorporativo do CENSIPAM) 21 - CCG, 22 - Belem, 23 - Porto Velho, 20 - Manaus
 
             snd_octet = int(dados_servidor['ip'].split('.')[1])
+            ##These administrative codes are specific for CENSIPAM. There is no meaning for other organization##
             #consultar o corporativo para verificar o código e tirar o hardcoded daqui
             if snd_octet == 20:
                 #manaus
@@ -30,7 +31,7 @@ class Indexador:
             elif snd_octet == 22:
                 #belem
                 codigo_centro_administrativo = 2
-            elif snd_octet == 23:
+            elif snd_octet == 23 or snd_octet == 16:
                 #porto velho
                 codigo_centro_administrativo = 4
             else:
@@ -43,7 +44,7 @@ class Indexador:
         if self.diretorio_root != '':
             
             utilitarios.logar(utilitarios.arquivo_log, "Aguardando o Crawler do MetaGETA...")
-            metageta_crawler = crawler.Crawler(self.diretorio_entrada, self.recursivo, self.arquivos_compactados, excludes=['*.png', '*.jpg','*_meta'])
+            metageta_crawler = crawler.Crawler(self.diretorio_entrada, self.recursivo, self.arquivos_compactados, excludes=['*.png', '*.jpg'])
             utilitarios.logar(utilitarios.arquivo_log, "Organizando dados levantados pelo Crawler...")
             for dataset_imagem in metageta_crawler:
                 #criando o objeto imagem com os atributos de metadados e respectiva geometria
@@ -61,8 +62,8 @@ class Indexador:
     def indexar_imagens(self):
 
         for img in self.dados_imagens:
-	    #verificar se a imagem img já foi movida do diretório de entrada
-	    if not os.path.exists(img.caminho_arquivo):continue
+            #verificar se a imagem img já foi movida do diretório de entrada
+            if not os.path.exists(img.caminho_arquivo):continue
            
             ##############################################################################################################
             #verificando se as imagens da cena estão diretamente no diretório de entrada

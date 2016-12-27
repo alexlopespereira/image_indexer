@@ -3,13 +3,12 @@ import indexador
 from lib import utilitarios
 from lib.utilitarios import arquivo_log
 import datetime,os
-import sys, traceback
 def main():
 
 
     try:
         
-        diretorio_processamento = '/indice_imagens'
+        diretorio_processamento = '/home/alex/Desktop/landsat'
 
         if not os.path.exists(diretorio_processamento):
             raise "Diretório informado ""%s"" não existe." % diretorio_processamento
