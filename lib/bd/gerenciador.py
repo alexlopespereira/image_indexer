@@ -18,7 +18,7 @@ import datetime
 
 class Banco:
 
-    DSN = "dbname=testbd user=user.name password=user.password host=192.168.0.2"
+    DSN = "dbname=testdb user=user.name password=user.password host=192.168.0.2"
 
     def __init__(self):
    
