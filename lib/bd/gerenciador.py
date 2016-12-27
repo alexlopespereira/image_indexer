@@ -19,7 +19,7 @@ import datetime
 class Banco:
 
     #BANCO DE DADOS DE DESENVOLVIMENTO
-    DSN = "dbname=sig_sipam_alt user=alex.pereira password=@Lex2016 host=172.21.5.175"
+    DSN = "dbname=test_bd user=user.name password=user.password host=192.168.0.2"
 
     def __init__(self):
    
