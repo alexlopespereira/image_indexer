@@ -15,6 +15,8 @@
 from .. dal.dal_imagem import DALImagem
 import os,datetime
 import fornecedor, servidor, plataforma, sensor
+import psycopg2
+from lib import utilitarios
 
 class Imagem:
 
@@ -202,8 +204,11 @@ class Imagem:
                     self.codigo = codigo_retorno
                 else:
                     raise Exception("Não foi possível recuperar os dados da imagem inserida.")
-            except BaseException as e:
-                raise Exception("ERRO AO INSERIR IMAGEM: %s" % (e))
+            except psycopg2.IntegrityError as e:
+                    utilitarios.logar("Arquivo %s ja existe no banco de dados." % e)
+                    pass
+            except Exception as e:
+                    raise Exception("ERRO AO INSERIR IMAGEM: %s" % (e))
 
 
     def popula_objeto(self, dataset):

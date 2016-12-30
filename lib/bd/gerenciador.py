@@ -15,10 +15,11 @@
 import psycopg2
 import psycopg2.extras
 import datetime
+from lib import utilitarios
 
 class Banco:
 
-    DSN = "dbname=testdb user=user.name password=user.password host=192.168.0.2"
+    DSN = "dbname=sig_sipam_alt user=alex.pereira password=@Lex2016 host=172.21.5.175"
 
     def __init__(self):
    
@@ -70,7 +71,11 @@ class Banco:
                         return id_retorno
                     else:
                         raise Exception("Não foi possível recuperar o ID do registro inserido.")
-        except (BaseException, psycopg2.Error) as e:
+        except psycopg2.Error as e:
+            #raise psycopg2.IntegrityError("INSERT: (%s) -  %s" % (type(e).__name__, e))
+            utilitarios.logar("Arquivo %s ja existe no banco de dados." % type(e).__name__)
+            pass
+        except BaseException as e:
             raise Exception("INSERT: (%s) -  %s" % (type(e).__name__, e))
         finally:
             if self.sessao is not None:
@@ -88,7 +93,11 @@ class Banco:
                     raise Exception("Não foi possível recuperar o ID do registro inserido.")
             else:
                 raise Exception("O estado da sessão não encontra-se disponível para realizar a transação.")
-        except (BaseException, psycopg2.Error) as e:
+        except psycopg2.Error as e:
+            if self.transacao is not None:self.transacao.close()
+            utilitarios.logar("Arquivo %s ja existe no banco de dados." % type(e).__name__)
+            pass
+        except BaseException as e:
             if self.transacao is not None:self.transacao.close()
             raise Exception("INSERT(NOCOMMIT): (%s) -  %s" % (type(e).__name__, e))
 
