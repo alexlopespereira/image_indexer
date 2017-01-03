@@ -73,7 +73,7 @@ class Banco:
                         raise Exception("Não foi possível recuperar o ID do registro inserido.")
         except psycopg2.Error as e:
             #raise psycopg2.IntegrityError("INSERT: (%s) -  %s" % (type(e).__name__, e))
-            utilitarios.logar("Arquivo %s ja existe no banco de dados." % type(e).__name__)
+            utilitarios.logar(utilitarios.arquivo_log, "Arquivo %s ja existe no banco de dados." % type(e).__name__)
             pass
         except BaseException as e:
             raise Exception("INSERT: (%s) -  %s" % (type(e).__name__, e))
@@ -95,7 +95,7 @@ class Banco:
                 raise Exception("O estado da sessão não encontra-se disponível para realizar a transação.")
         except psycopg2.Error as e:
             if self.transacao is not None:self.transacao.close()
-            utilitarios.logar("Arquivo %s ja existe no banco de dados." % type(e).__name__)
+            utilitarios.logar(utilitarios.arquivo_log, "Arquivo %s ja existe no banco de dados." % type(e).__name__)
             pass
         except BaseException as e:
             if self.transacao is not None:self.transacao.close()
