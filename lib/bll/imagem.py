@@ -205,7 +205,7 @@ class Imagem:
                 else:
                     raise Exception("Não foi possível recuperar os dados da imagem inserida.")
             except psycopg2.IntegrityError as e:
-                    utilitarios.logar(utilitarios.arquivo_log, "Arquivo %s ja existe no banco de dados." % e)
+                    utilitarios.logar(utilitarios.arquivo_log, "Arquivo %s ja existe no banco de dados." % self.caminho_arquivo)
                     pass
             except Exception as e:
                     raise Exception("ERRO AO INSERIR IMAGEM: %s" % (e))

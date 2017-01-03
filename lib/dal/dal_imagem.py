@@ -124,3 +124,9 @@ class DALImagem:
         else:
             return None
 
+    def select(caminho_arquivo):
+        tupla = DALImagem.conexao.consultar("SELECT co_seq_imagem FROM indice_imagens.tb_imagem where no_caminho_arquivo = %s", [caminho_arquivo]);
+        if len(tupla) > 0:
+            return tupla[0]
+        else:
+            return None

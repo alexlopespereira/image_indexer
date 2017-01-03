@@ -19,7 +19,7 @@ from lib import utilitarios
 
 class Banco:
 
-    DSN = "dbname=sig_sipam_alt user=alex.pereira password=@Lex2016 host=172.21.5.175"
+    DSN = "dbname=bd_name user=usarname password=userpassword host=192.168.0.10"
 
     def __init__(self):
    
@@ -73,8 +73,10 @@ class Banco:
                         raise Exception("Não foi possível recuperar o ID do registro inserido.")
         except psycopg2.Error as e:
             #raise psycopg2.IntegrityError("INSERT: (%s) -  %s" % (type(e).__name__, e))
-            utilitarios.logar(utilitarios.arquivo_log, "Arquivo %s ja existe no banco de dados." % type(e).__name__)
-            pass
+            if self.transacao is not None: self.transacao.close()
+            tupla = self.consultar("SELECT co_seq_imagem FROM indice_imagens.tb_imagem where no_caminho_arquivo = %s", [lista_parametros[21]]);
+            utilitarios.logar(utilitarios.arquivo_log, "INSERT: Arquivo %s ja existe no banco de dados." % type(e).__name__)
+            return tupla[0]['co_seq_imagem']
         except BaseException as e:
             raise Exception("INSERT: (%s) -  %s" % (type(e).__name__, e))
         finally:
@@ -95,8 +97,11 @@ class Banco:
                 raise Exception("O estado da sessão não encontra-se disponível para realizar a transação.")
         except psycopg2.Error as e:
             if self.transacao is not None:self.transacao.close()
-            utilitarios.logar(utilitarios.arquivo_log, "Arquivo %s ja existe no banco de dados." % type(e).__name__)
-            pass
+            tupla = self.consultar("SELECT co_seq_imagem FROM indice_imagens.tb_imagem where no_caminho_arquivo = %s",
+                                   [lista_parametros[21]]);
+            utilitarios.logar(utilitarios.arquivo_log,
+                              "INSERT: Arquivo %s ja existe no banco de dados." % type(e).__name__)
+            return tupla[0]['co_seq_imagem']
         except BaseException as e:
             if self.transacao is not None:self.transacao.close()
             raise Exception("INSERT(NOCOMMIT): (%s) -  %s" % (type(e).__name__, e))
