@@ -75,7 +75,7 @@ class Banco:
             #raise psycopg2.IntegrityError("INSERT: (%s) -  %s" % (type(e).__name__, e))
             if self.transacao is not None: self.transacao.close()
             tupla = self.consultar("SELECT co_seq_imagem FROM indice_imagens.tb_imagem where no_caminho_arquivo = %s", [lista_parametros[21]]);
-            utilitarios.logar(utilitarios.arquivo_log, "INSERT: Arquivo %s ja existe no banco de dados." % type(e).__name__)
+            utilitarios.logar(utilitarios.arquivo_log, "INSERT: Arquivo %s ja existe no banco de dados." % lista_parametros[21])
             return tupla[0]['co_seq_imagem']
         except BaseException as e:
             raise Exception("INSERT: (%s) -  %s" % (type(e).__name__, e))
@@ -100,7 +100,7 @@ class Banco:
             tupla = self.consultar("SELECT co_seq_imagem FROM indice_imagens.tb_imagem where no_caminho_arquivo = %s",
                                    [lista_parametros[21]]);
             utilitarios.logar(utilitarios.arquivo_log,
-                              "INSERT: Arquivo %s ja existe no banco de dados." % type(e).__name__)
+                              "INSERT: Arquivo %s ja existe no banco de dados." % lista_parametros[21])
             return tupla[0]['co_seq_imagem']
         except BaseException as e:
             if self.transacao is not None:self.transacao.close()
